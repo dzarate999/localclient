@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Data Storage</title>
+    <style>
+    body {
+        margin: 0px;
+        background-color: #f5f5f5;
+    }
+
+    a {
+            color: #262626;
+    }
+
+    a:hover {
+            color: #9c9c9c;
+    }    
+
+    h1 {
+        color: #262626;
+    }
+
+    #nav {
+        text-indent: 50px;
+        background: #dcdcdc;
+    }
+
+    section {
+        height: 50px;
+        padding: 0;
+        display: table-cell;
+        vertical-align: middle;
+    }    
+
+    #root {
+        width: 300px;
+        border: 0px;
+        background: #3f3f3f;
+        color: #f5f5f5;
+        border-radius: 10px 10px 10px 10px;
+    }
+
+    div {
+        text-indent: 20px;
+    }
+    
+    #date {
+        background: #262626;
+        text-align: center;
+        border-radius: 10px;
+        color: #f5f5f5;
+        font-weight: bold;
+    }
+    </style>
+</head>
+<body>
+    <div id="nav">
+        <section>
+            <a href="index.html">Home</a>
+        </section>
+    </div>    
+    <h1>Data Storage</h1>
+    <script>
+    getData();
+    async function getData() {
+        const response = await fetch('/api');
+        const data = await response.json();
+
+    for (item of data) {
+        const root = document.createElement('div');
+        root.setAttribute('id', 'root');
+        const date = document.createElement('div');
+        date.setAttribute('id', 'date');
+        const mood = document.createElement('div');
+        const lat = document.createElement('div');
+        const lon = document.createElement('div');
+
+
+        const dateString  = new Date(item.timestamp).toLocaleString();
+        date.textContent = dateString;
+
+
+        if (item.feels === undefined) {
+            mood.textContent = 'Mood: None';
+        } else {
+            mood.textContent = `Mood: ${item.feels}`;
+        }
+
+        
+        
+        lat.textContent = `Latitude: ${item.lat}`;
+        lon.textContent = `Longitude: ${item.lon}`;
+
+        root.append(date, mood, lat, lon);
+        document.body.append(root);
+        }
+    }
+    
+    </script>
+</body>
+</html>
